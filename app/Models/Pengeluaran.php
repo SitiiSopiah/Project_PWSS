@@ -3,21 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pengeluaran extends Model
 {
-
-    use HasFactory;
-     
     protected $fillable = [
         'tanggal',
-        'jumlah',
+        'sumber',
+        'jumlah_karung',
+        'total',
         'keterangan',
     ];
 
     protected $casts = [
         'tanggal' => 'date',
-        'jumlah' => 'decimal:2',
+        'total' => 'decimal:2',
     ];
 }

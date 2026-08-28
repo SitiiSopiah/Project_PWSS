@@ -1,83 +1,63 @@
 @extends('layouts.app')
 
-@section('title', 'Data Fasilitas')
+@section('title', 'Data Warga')
 
 @section('content')
 
 <div class="container-fluid p-0">
 
-    {{-- HEADER --}}
+    {{-- HEADER HALAMAN --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
-
             <h2 class="fw-bold mb-1">
-                Data Fasilitas
+                Data Warga
             </h2>
 
             <p class="text-muted mb-0">
-                Data fasilitas pengelolaan sampah Kampung Panyalahan.
+                Data warga Kampung Panyalahan yang terdaftar dalam pengelolaan sampah.
             </p>
-
         </div>
 
-        <a href="{{ route('fasilitas.create') }}"
+        <a href="{{ route('wargas.create') }}"
            class="btn btn-success">
 
             <i class="fas fa-plus me-2"></i>
-
-            Tambah Fasilitas
+            Tambah Warga
 
         </a>
 
     </div>
 
 
-    {{-- PESAN SUKSES --}}
-    @if(session('success'))
-
-        <div class="alert alert-success">
-
-            <i class="fas fa-check-circle me-2"></i>
-
-            {{ session('success') }}
-
-        </div>
-
-    @endif
-
-
-    {{-- CARD --}}
+    {{-- CARD DATA --}}
     <div class="card">
 
         <div class="card-body p-4">
 
+            {{-- JUDUL TABEL --}}
             <div class="d-flex justify-content-between align-items-center mb-3">
 
                 <div>
-
                     <h5 class="fw-bold mb-1">
-                        Daftar Data Fasilitas
+                        Daftar Data Warga
                     </h5>
 
                     <small class="text-muted">
-                        Fasilitas yang digunakan dalam kegiatan pengelolaan sampah.
+                        Data warga Kampung Panyalahan
                     </small>
-
                 </div>
 
                 <div class="text-muted">
+                    <i class="fas fa-users me-1"></i>
 
-                    <i class="fas fa-building me-1"></i>
-
-                    {{ $fasilitas->count() }} Data
-
+                    {{ $wargas->count() }} Warga
                 </div>
 
             </div>
 
 
-            {{-- TABLE --}}
+            {{-- TABEL --}}
             <div class="table-responsive">
 
                 <table class="table table-bordered table-hover align-middle">
@@ -91,19 +71,19 @@
                             </th>
 
                             <th>
-                                Nama Fasilitas
+                                Nama Warga
                             </th>
 
                             <th>
-                                Jumlah
+                                Alamat
                             </th>
 
                             <th>
-                                Kondisi
+                                Wilayah / RT
                             </th>
 
                             <th>
-                                Keterangan
+                                No. HP
                             </th>
 
                             <th width="150">
@@ -117,7 +97,7 @@
 
                     <tbody>
 
-                        @forelse($fasilitas as $data)
+                        @forelse($wargas as $warga)
 
                         <tr>
 
@@ -126,59 +106,37 @@
                             </td>
 
                             <td>
-
                                 <div class="d-flex align-items-center">
 
-                                    <div class="fasilitas-icon me-2">
+                                    <div class="warga-icon me-2">
 
-                                        <i class="fas fa-building"></i>
+                                        <i class="fas fa-user"></i>
 
                                     </div>
 
                                     <strong>
-                                        {{ $data->nama }}
+                                        {{ $warga->nama }}
                                     </strong>
 
                                 </div>
+                            </td>
 
+                            <td>
+                                {{ $warga->alamat ?? '-' }}
                             </td>
 
                             <td>
 
-                                <span class="badge bg-success">
+                                <span class="badge bg-success-subtle text-success">
 
-                                    {{ $data->jumlah }}
+                                    {{ $warga->wilayah_rt ?? '-' }}
 
                                 </span>
 
                             </td>
 
                             <td>
-
-                                @if(strtolower($data->kondisi) == 'baik')
-
-                                    <span class="badge bg-success">
-                                        Baik
-                                    </span>
-
-                                @elseif(strtolower($data->kondisi) == 'rusak')
-
-                                    <span class="badge bg-danger">
-                                        Rusak
-                                    </span>
-
-                                @else
-
-                                    <span class="badge bg-warning text-dark">
-                                        {{ $data->kondisi }}
-                                    </span>
-
-                                @endif
-
-                            </td>
-
-                            <td>
-                                {{ $data->keterangan ?? '-' }}
+                                {{ $warga->no_hp ?? '-' }}
                             </td>
 
                             <td>
@@ -187,7 +145,7 @@
 
                                     {{-- EDIT --}}
                                     <a
-                                        href="{{ route('fasilitas.edit', $data->id) }}"
+                                        href="{{ route('wargas.edit', $warga->id) }}"
                                         class="btn btn-warning btn-sm"
                                         title="Edit">
 
@@ -198,9 +156,9 @@
 
                                     {{-- HAPUS --}}
                                     <form
-                                        action="{{ route('fasilitas.destroy', $data->id) }}"
+                                        action="{{ route('wargas.destroy', $warga->id) }}"
                                         method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus data fasilitas ini?')">
+                                        onsubmit="return confirm('Yakin ingin menghapus data warga ini?')">
 
                                         @csrf
 
@@ -233,23 +191,23 @@
 
                                 <div class="empty-data">
 
-                                    <i class="fas fa-building fa-3x mb-3"></i>
+                                    <i class="fas fa-users fa-3x mb-3"></i>
 
                                     <h5 class="fw-bold">
-                                        Belum Ada Data Fasilitas
+                                        Belum Ada Data Warga
                                     </h5>
 
-                                    <p class="text-muted">
-                                        Silakan tambahkan fasilitas terlebih dahulu.
+                                    <p class="text-muted mb-3">
+                                        Silakan tambahkan data warga terlebih dahulu.
                                     </p>
 
                                     <a
-                                        href="{{ route('fasilitas.create') }}"
+                                        href="{{ route('wargas.create') }}"
                                         class="btn btn-success">
 
                                         <i class="fas fa-plus me-1"></i>
 
-                                        Tambah Fasilitas
+                                        Tambah Warga
 
                                     </a>
 
@@ -276,7 +234,11 @@
 
 <style>
 
-.fasilitas-icon {
+/* =========================================
+   WARGA ICON
+========================================= */
+
+.warga-icon {
     width: 36px;
     height: 36px;
 
@@ -292,6 +254,35 @@
 
     flex-shrink: 0;
 }
+
+
+/* =========================================
+   BADGE RT
+========================================= */
+
+.bg-success-subtle {
+    background-color: #e1f3e7 !important;
+}
+
+
+/* =========================================
+   EMPTY DATA
+========================================= */
+
+.empty-data {
+    padding: 20px;
+
+    color: #188c20;
+}
+
+.empty-data p {
+    color: #777;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
 
 .table {
     margin-bottom: 0;
@@ -311,14 +302,35 @@
     padding: 13px 12px;
 }
 
+.table tbody tr {
+    transition: 0.15s;
+}
+
 .table tbody tr:hover {
     background: #f7fcf8;
 }
 
-.empty-data {
-    padding: 20px;
 
-    color: #188c20;
+/* =========================================
+   BUTTON
+========================================= */
+
+.btn-sm {
+    min-width: 35px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .d-flex.justify-content-between {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
 }
 
 </style>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Data Fasilitas')
+@section('title', 'Data Petugas')
 
 @section('content')
 
@@ -12,39 +12,25 @@
         <div>
 
             <h2 class="fw-bold mb-1">
-                Data Fasilitas
+                Data Petugas
             </h2>
 
             <p class="text-muted mb-0">
-                Data fasilitas pengelolaan sampah Kampung Panyalahan.
+                Data petugas pengelolaan sampah Kampung Panyalahan.
             </p>
 
         </div>
 
-        <a href="{{ route('fasilitas.create') }}"
+        <a href="{{ route('petugas.create') }}"
            class="btn btn-success">
 
             <i class="fas fa-plus me-2"></i>
 
-            Tambah Fasilitas
+            Tambah Petugas
 
         </a>
 
     </div>
-
-
-    {{-- PESAN SUKSES --}}
-    @if(session('success'))
-
-        <div class="alert alert-success">
-
-            <i class="fas fa-check-circle me-2"></i>
-
-            {{ session('success') }}
-
-        </div>
-
-    @endif
 
 
     {{-- CARD --}}
@@ -57,24 +43,38 @@
                 <div>
 
                     <h5 class="fw-bold mb-1">
-                        Daftar Data Fasilitas
+                        Daftar Data Petugas
                     </h5>
 
                     <small class="text-muted">
-                        Fasilitas yang digunakan dalam kegiatan pengelolaan sampah.
+                        Petugas pengelolaan sampah Kampung Panyalahan
                     </small>
 
                 </div>
 
                 <div class="text-muted">
 
-                    <i class="fas fa-building me-1"></i>
+                    <i class="fas fa-user-tie me-1"></i>
 
-                    {{ $fasilitas->count() }} Data
+                    {{ $petugas->count() }} Petugas
 
                 </div>
 
             </div>
+
+
+            {{-- SUCCESS --}}
+            @if(session('success'))
+
+                <div class="alert alert-success">
+
+                    <i class="fas fa-check-circle me-2"></i>
+
+                    {{ session('success') }}
+
+                </div>
+
+            @endif
 
 
             {{-- TABLE --}}
@@ -91,19 +91,15 @@
                             </th>
 
                             <th>
-                                Nama Fasilitas
+                                Nama Petugas
                             </th>
 
                             <th>
-                                Jumlah
+                                Wilayah RT
                             </th>
 
                             <th>
-                                Kondisi
-                            </th>
-
-                            <th>
-                                Keterangan
+                                No. HP
                             </th>
 
                             <th width="150">
@@ -114,10 +110,9 @@
 
                     </thead>
 
-
                     <tbody>
 
-                        @forelse($fasilitas as $data)
+                        @forelse($petugas as $data)
 
                         <tr>
 
@@ -129,9 +124,9 @@
 
                                 <div class="d-flex align-items-center">
 
-                                    <div class="fasilitas-icon me-2">
+                                    <div class="petugas-icon me-2">
 
-                                        <i class="fas fa-building"></i>
+                                        <i class="fas fa-user-tie"></i>
 
                                     </div>
 
@@ -144,50 +139,19 @@
                             </td>
 
                             <td>
-
-                                <span class="badge bg-success">
-
-                                    {{ $data->jumlah }}
-
-                                </span>
-
+                                {{ $data->wilayah_rt ?? '-' }}
                             </td>
 
                             <td>
-
-                                @if(strtolower($data->kondisi) == 'baik')
-
-                                    <span class="badge bg-success">
-                                        Baik
-                                    </span>
-
-                                @elseif(strtolower($data->kondisi) == 'rusak')
-
-                                    <span class="badge bg-danger">
-                                        Rusak
-                                    </span>
-
-                                @else
-
-                                    <span class="badge bg-warning text-dark">
-                                        {{ $data->kondisi }}
-                                    </span>
-
-                                @endif
-
-                            </td>
-
-                            <td>
-                                {{ $data->keterangan ?? '-' }}
+                                {{ $data->no_hp ?? '-' }}
                             </td>
 
                             <td>
 
                                 <div class="d-flex gap-1">
 
-                                    {{-- EDIT --}}
                                     <a
-                                        href="{{ route('fasilitas.edit', $data->id) }}"
+                                        href="{{ route('petugas.edit', $data->id) }}"
                                         class="btn btn-warning btn-sm"
                                         title="Edit">
 
@@ -196,11 +160,10 @@
                                     </a>
 
 
-                                    {{-- HAPUS --}}
                                     <form
-                                        action="{{ route('fasilitas.destroy', $data->id) }}"
+                                        action="{{ route('petugas.destroy', $data->id) }}"
                                         method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus data fasilitas ini?')">
+                                        onsubmit="return confirm('Yakin ingin menghapus data petugas ini?')">
 
                                         @csrf
 
@@ -227,29 +190,28 @@
 
                         <tr>
 
-                            <td
-                                colspan="6"
+                            <td colspan="6"
                                 class="text-center py-5">
 
                                 <div class="empty-data">
 
-                                    <i class="fas fa-building fa-3x mb-3"></i>
+                                    <i class="fas fa-user-tie fa-3x mb-3"></i>
 
                                     <h5 class="fw-bold">
-                                        Belum Ada Data Fasilitas
+                                        Belum Ada Data Petugas
                                     </h5>
 
                                     <p class="text-muted">
-                                        Silakan tambahkan fasilitas terlebih dahulu.
+                                        Silakan tambahkan data petugas terlebih dahulu.
                                     </p>
 
                                     <a
-                                        href="{{ route('fasilitas.create') }}"
+                                        href="{{ route('petugas.create') }}"
                                         class="btn btn-success">
 
                                         <i class="fas fa-plus me-1"></i>
 
-                                        Tambah Fasilitas
+                                        Tambah Petugas
 
                                     </a>
 
@@ -276,7 +238,7 @@
 
 <style>
 
-.fasilitas-icon {
+.petugas-icon {
     width: 36px;
     height: 36px;
 
@@ -291,10 +253,6 @@
     justify-content: center;
 
     flex-shrink: 0;
-}
-
-.table {
-    margin-bottom: 0;
 }
 
 .table thead th {

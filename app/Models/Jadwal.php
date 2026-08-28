@@ -3,15 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Petugas;
 
 class Jadwal extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'tanggal',
-        'petugas',
         'wilayah_rt',
     ];
 
@@ -19,8 +16,13 @@ class Jadwal extends Model
         'tanggal' => 'date',
     ];
 
-    public function petugas(): BelongsTo
+    public function petugas()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsToMany(
+            Petugas::class,
+            'jadwal_petugas',
+            'jadwal_id',
+            'petugas_id'
+        );
     }
 }

@@ -9,55 +9,52 @@ class PengeluaranController extends Controller
 {
     public function index()
     {
-        $pengeluarans = Pengeluaran::orderBy('tanggal', 'desc')->get();
+        $pengeluarans = Pengeluaran::latest('tanggal')->get();
 
-        $totalPengeluaran = Pengeluaran::sum('jumlah');
-
-        return view('pengeluarans.index', compact(
-            'pengeluarans',
-            'totalPengeluaran'
-        ));
+        return view('pengeluaran.index', compact('pengeluarans'));
     }
 
     public function create()
     {
-        return view('pengeluarans.create');
+        return view('pengeluaran.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'tanggal' => 'required|date',
-            'jumlah' => 'required|integer|min:0',
+            'sumber' => 'required|string|max:255',
+            'jumlah_karung' => 'required|integer|min:0',
+            'total' => 'required|numeric|min:0',
             'keterangan' => 'nullable|string',
         ]);
 
         Pengeluaran::create($validated);
 
         return redirect()
-            ->route('pengeluarans.index')
+            ->route('pengeluaran.index')
             ->with('success', 'Data pengeluaran berhasil ditambahkan.');
     }
 
     public function edit(Pengeluaran $pengeluaran)
     {
-        return view('pengeluarans.edit', compact('pengeluaran'));
+        return view('pengeluaran.edit', compact('pengeluaran'));
     }
 
-    public function update(
-        Request $request,
-        Pengeluaran $pengeluaran
-    ) {
+    public function update(Request $request, Pengeluaran $pengeluaran)
+    {
         $validated = $request->validate([
             'tanggal' => 'required|date',
-            'jumlah' => 'required|integer|min:0',
+            'sumber' => 'required|string|max:255',
+            'jumlah_karung' => 'required|integer|min:0',
+            'total' => 'required|numeric|min:0',
             'keterangan' => 'nullable|string',
         ]);
 
         $pengeluaran->update($validated);
 
         return redirect()
-            ->route('pengeluarans.index')
+            ->route('pengeluaran.index')
             ->with('success', 'Data pengeluaran berhasil diperbarui.');
     }
 
@@ -66,7 +63,7 @@ class PengeluaranController extends Controller
         $pengeluaran->delete();
 
         return redirect()
-            ->route('pengeluarans.index')
+            ->route('pengeluaran.index')
             ->with('success', 'Data pengeluaran berhasil dihapus.');
     }
 }

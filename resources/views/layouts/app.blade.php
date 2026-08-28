@@ -2,9 +2,11 @@
 <html lang="id">
 
 <head>
+
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>
         @yield('title', 'Pengelolaan Sampah')
@@ -15,261 +17,206 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
-    {{-- Bootstrap Icons --}}
+    {{-- Font Awesome --}}
     <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-        rel="stylesheet">
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
+
+        /* =========================================
+           RESET
+        ========================================= */
 
         * {
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #ffffff;
-            color: #111820;
+            padding: 0;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #17202a;
         }
 
 
-        /* =====================================================
+        /* =========================================
            SIDEBAR
-        ===================================================== */
+        ========================================= */
 
         .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-
             width: 265px;
             height: 100vh;
 
-            background: linear-gradient(
-                180deg,
-                #00652d 0%,
-                #004d24 100%
-            );
+            position: fixed;
+            left: 0;
+            top: 0;
 
+            background: #006b32;
             color: white;
+
+            overflow-y: auto;
 
             z-index: 1000;
 
-            overflow-y: auto;
+            transition: all 0.3s ease;
         }
 
 
-        /* =====================================================
-           LOGO SIDEBAR
-        ===================================================== */
+        /* Header Sidebar */
 
-        .sidebar-logo {
+        .sidebar-header {
             height: 115px;
 
             background: white;
+            color: #111;
 
             display: flex;
             align-items: center;
 
-            padding: 20px 24px;
+            padding: 20px;
 
-            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #e5e5e5;
         }
 
-        .sidebar-logo-icon {
+
+        /* Logo */
+
+        .logo-box {
             width: 48px;
             height: 48px;
 
             min-width: 48px;
 
-            border-radius: 6px;
+            background: #087f3f;
 
-            background: #08763b;
-
-            color: white;
+            border-radius: 7px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            font-size: 27px;
+            color: white;
 
-            margin-right: 15px;
+            font-size: 25px;
+
+            margin-right: 12px;
         }
 
-        .sidebar-logo-text {
+
+        /* Brand */
+
+        .brand-title {
+            font-size: 20px;
+
+            font-weight: bold;
+
             line-height: 1.05;
         }
 
-        .sidebar-logo-text strong {
-            display: block;
 
-            font-size: 19px;
-
-            font-weight: 800;
-
-            color: #111820;
-        }
-
-        .sidebar-logo-text span {
-            display: block;
-
+        .brand-subtitle {
             font-size: 12px;
 
-            font-weight: 700;
-
-            color: #222;
+            font-weight: bold;
 
             margin-top: 5px;
+
+            white-space: nowrap;
         }
 
 
-        /* =====================================================
-           MENU SIDEBAR
-        ===================================================== */
+        /* =========================================
+           SIDEBAR MENU
+        ========================================= */
 
         .sidebar-menu {
-            padding: 20px 12px 80px;
+            padding: 20px 12px 30px;
         }
 
 
         .sidebar-menu a {
             display: flex;
+
             align-items: center;
 
-            width: 100%;
-            min-height: 52px;
+            gap: 14px;
 
-            padding: 0 14px;
+            padding: 14px 14px;
 
             margin-bottom: 5px;
 
-            border-radius: 10px;
-
-            color: #ffffff;
+            color: white;
 
             text-decoration: none;
 
-            font-size: 15px;
+            border-radius: 10px;
 
-            font-weight: 500;
+            font-size: 15px;
 
             transition: all 0.2s ease;
         }
 
 
-        .sidebar-menu a i {
-            width: 30px;
-
-            min-width: 30px;
-
-            font-size: 20px;
-
-            margin-right: 8px;
-
-            text-align: center;
-        }
-
-
-        /* HOVER */
-
         .sidebar-menu a:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255,255,255,.10);
 
-            color: #ffffff;
+            transform: translateX(2px);
         }
 
-
-        /* MENU AKTIF */
 
         .sidebar-menu a.active {
-            background: linear-gradient(
-                90deg,
-                #268d20,
-                #17771c
-            );
+            background: #188c20;
 
-            color: white;
-
-            box-shadow:
-                0 3px 8px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 3px 8px rgba(0,0,0,.10);
         }
 
 
-        /* =====================================================
-           BAGIAN BAWAH SIDEBAR
-        ===================================================== */
+        .sidebar-menu i {
+            width: 24px;
 
-        .sidebar-bottom {
-            position: absolute;
+            min-width: 24px;
 
-            bottom: 25px;
-            left: 0;
+            text-align: center;
 
-            width: 100%;
-
-            display: flex;
-
-            justify-content: center;
+            font-size: 16px;
         }
 
 
-        /* Tombol logout */
-
-        .logout-button {
-            width: 42px;
-            height: 42px;
-
-            border: none;
-
-            border-radius: 50%;
-
-            background: rgba(255, 255, 255, 0.12);
-
-            color: white;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            font-size: 22px;
-
-            cursor: pointer;
-
-            transition: 0.2s;
+        .sidebar-menu span {
+            line-height: 1.3;
         }
 
 
-        .logout-button:hover {
-            background: rgba(255, 255, 255, 0.22);
-
-            transform: scale(1.05);
-        }
-
-
-        /* =====================================================
+        /* =========================================
            MAIN CONTENT
-        ===================================================== */
+        ========================================= */
 
-        .main {
+        .main-content {
             margin-left: 265px;
 
             min-height: 100vh;
 
-            background: white;
+            transition: all 0.3s ease;
         }
 
 
-        /* =====================================================
+        /* =========================================
            TOPBAR
-        ===================================================== */
+        ========================================= */
 
         .topbar {
             height: 90px;
 
-            border-bottom: 1px solid #e5e5e5;
+            background: #ffffff;
+
+            border-bottom: 1px solid #e1e1e1;
 
             display: flex;
 
@@ -277,28 +224,56 @@
 
             justify-content: space-between;
 
-            padding: 0 30px;
+            padding: 0 35px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 900;
         }
 
 
-        /* Hamburger */
+        /* Tombol Menu */
 
         .menu-button {
-            font-size: 31px;
+            width: 45px;
+            height: 45px;
+
+            border: none;
+
+            background: transparent;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
 
             color: #555;
 
+            font-size: 25px;
+
             cursor: pointer;
 
-            line-height: 1;
+            border-radius: 8px;
+
+            transition: 0.2s;
         }
 
 
-        /* =====================================================
-           ADMIN PROFILE
-        ===================================================== */
+        .menu-button:hover {
+            background: #f1f1f1;
 
-        .admin-profile {
+            color: #087f3f;
+        }
+
+
+        /* =========================================
+           ADMIN
+        ========================================= */
+
+        .admin {
             display: flex;
 
             align-items: center;
@@ -308,14 +283,14 @@
 
 
         .admin-icon {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
+
+            background: #006b32;
+
+            color: #ffffff;
 
             border-radius: 50%;
-
-            background: #003f27;
-
-            color: white;
 
             display: flex;
 
@@ -323,91 +298,164 @@
 
             justify-content: center;
 
-            font-size: 22px;
+            font-size: 18px;
         }
 
 
-        .admin-name {
-            line-height: 1.25;
+        .admin-info {
+            display: flex;
+
+            flex-direction: column;
+
+            line-height: 1.3;
         }
 
 
-        .admin-name strong {
-            display: block;
-
+        .admin-info strong {
             font-size: 16px;
 
-            font-weight: 700;
+            color: #17202a;
         }
 
 
-        .admin-name span {
-            display: block;
+        .admin-info span {
+            font-size: 13px;
 
             color: #777;
-
-            font-size: 13px;
 
             margin-top: 2px;
         }
 
 
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
+        /* =========================================
+           PAGE CONTENT
+        ========================================= */
 
-        @media (max-width: 1000px) {
+        .page-content {
+            padding: 30px 35px;
 
-            .sidebar {
-                width: 230px;
-            }
-
-            .main {
-                margin-left: 230px;
-            }
-
-            .sidebar-logo {
-                padding: 18px;
-            }
-
-            .sidebar-logo-text strong {
-                font-size: 17px;
-            }
-
-            .sidebar-menu a {
-                font-size: 14px;
-            }
-
+            min-height: calc(100vh - 90px);
         }
 
 
-        @media (max-width: 700px) {
+        /* =========================================
+           GENERAL CARD
+        ========================================= */
+
+        .card {
+            border: none;
+
+            border-radius: 12px;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,.06);
+        }
+
+
+        /* =========================================
+           BUTTON
+        ========================================= */
+
+        .btn-success {
+            background: #188c20;
+
+            border-color: #188c20;
+        }
+
+
+        .btn-success:hover {
+            background: #127018;
+
+            border-color: #127018;
+        }
+
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        .table {
+            margin-bottom: 0;
+        }
+
+
+        .table thead th {
+            background: #d8eee5;
+
+            color: #111;
+
+            font-weight: 600;
+
+            vertical-align: middle;
+        }
+
+
+        .table td {
+            vertical-align: middle;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 992px) {
 
             .sidebar {
-                width: 230px;
-
                 transform: translateX(-100%);
-
-                transition: transform 0.3s ease;
             }
 
             .sidebar.show {
                 transform: translateX(0);
             }
 
-            .main {
+            .main-content {
                 margin-left: 0;
             }
 
             .topbar {
-                padding: 0 18px;
+                padding: 0 20px;
+            }
+
+            .page-content {
+                padding: 25px 20px;
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .sidebar {
+                width: 250px;
+            }
+
+            .sidebar-header {
+                height: 105px;
+            }
+
+            .brand-title {
+                font-size: 18px;
+            }
+
+            .brand-subtitle {
+                font-size: 10px;
+            }
+
+            .topbar {
+                height: 75px;
+            }
+
+            .admin-info {
+                display: none;
+            }
+
+            .page-content {
+                padding: 20px 15px;
             }
 
         }
 
     </style>
-
-    @stack('styles')
 
 </head>
 
@@ -415,340 +463,280 @@
 <body>
 
 
-{{-- =========================================================
-     SIDEBAR
-========================================================= --}}
+    {{-- =========================================
+         SIDEBAR
+    ========================================= --}}
 
-<aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar">
 
 
-    {{-- =====================================================
-         LOGO
-    ====================================================== --}}
+        {{-- SIDEBAR HEADER --}}
 
-    <div class="sidebar-logo">
+        <div class="sidebar-header">
 
-        <div class="sidebar-logo-icon">
+            <div class="logo-box">
 
-            <i class="bi bi-recycle"></i>
+                <i class="fas fa-recycle"></i>
+
+            </div>
+
+
+            <div>
+
+                <div class="brand-title">
+
+                    PENGELOLAAN<br>
+
+                    SAMPAH
+
+                </div>
+
+
+                <div class="brand-subtitle">
+
+                    KAMPUNG PANYALAHAN
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <div class="sidebar-logo-text">
+        {{-- =========================================
+             MENU SIDEBAR
+        ========================================= --}}
 
-            <strong>
-                PENGELOLAAN
-            </strong>
+        <div class="sidebar-menu">
 
-            <strong>
-                SAMPAH
-            </strong>
 
-            <span>
-                KAMPUNG PANYALAHAN
-            </span>
+            {{-- DASHBOARD --}}
+
+            <a href="{{ route('dashboard') }}"
+               class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+
+                <i class="fas fa-home"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            {{-- JADWAL --}}
+
+            <a href="{{ route('jadwals.index') }}"
+               class="{{ request()->routeIs('jadwals.*') ? 'active' : '' }}">
+
+                <i class="fas fa-calendar-alt"></i>
+
+                <span>
+                    Jadwal Pemungutan
+                </span>
+
+            </a>
+
+
+            {{-- DATA WARGA --}}
+
+            <a href="{{ route('wargas.index') }}"
+               class="{{ request()->routeIs('wargas.*') ? 'active' : '' }}">
+
+                <i class="fas fa-users"></i>
+
+                <span>
+                    Data Warga
+                </span>
+
+            </a>
+
+
+            {{-- DATA PETUGAS --}}
+
+            <a href="{{ route('petugas.index') }}"
+               class="{{ request()->routeIs('petugas.*') ? 'active' : '' }}">
+
+                <i class="fas fa-user-tie"></i>
+
+                <span>
+                    Data Petugas
+                </span>
+
+            </a>
+
+
+            {{-- DATA FASILITAS --}}
+
+            <a href="{{ route('fasilitas.index') }}"
+               class="{{ request()->routeIs('fasilitas.*') ? 'active' : '' }}">
+
+                <i class="fas fa-building"></i>
+
+                <span>
+                    Data Fasilitas
+                </span>
+
+            </a>
+
+
+            {{-- ADMINISTRASI --}}
+
+            <a href="{{ route('administrasi.index') }}"
+               class="{{ request()->routeIs('administrasi.*') ||
+                          request()->routeIs('pemasukans.*') ||
+                          request()->routeIs('pengeluarans.*')
+                          ? 'active' : '' }}">
+
+                <i class="fas fa-calculator"></i>
+
+                <span>
+                    Administrasi / Pencatatan
+                </span>
+
+            </a>
+
+
+            {{-- UPLOAD KEGIATAN --}}
+
+            <a href="{{ route('kegiatans.index') }}"
+               class="{{ request()->routeIs('kegiatans.*') ? 'active' : '' }}">
+
+                <i class="fas fa-cloud-upload-alt"></i>
+
+                <span>
+                    Upload Kegiatan
+                </span>
+
+            </a>
+
 
         </div>
 
-    </div>
+    </aside>
 
 
-    {{-- =====================================================
-         MENU
-    ====================================================== --}}
 
-    <nav class="sidebar-menu">
+    {{-- =========================================
+         MAIN CONTENT
+    ========================================= --}}
 
+    <main class="main-content">
 
-        {{-- ================= DASHBOARD ================= --}}
 
-        <a
-            href="{{ route('dashboard') }}"
-            class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"
-        >
+        {{-- =========================================
+             TOPBAR
+        ========================================= --}}
 
-            <i class="bi bi-house-door-fill"></i>
+        <header class="topbar">
 
-            <span>
-                Dashboard
-            </span>
 
-        </a>
-
-
-        {{-- ================= JADWAL ================= --}}
-
-        <a
-            href="{{ route('jadwals.index') }}"
-            class="{{ request()->routeIs('jadwals.*') ? 'active' : '' }}"
-        >
-
-            <i class="bi bi-calendar3"></i>
-
-            <span>
-                Jadwal Pemungutan
-            </span>
-
-        </a>
-
-
-        {{-- ================= PEMASUKAN & PENGELUARAN ================= --}}
-
-        <a
-            href="{{ route('pemasukans.index') }}"
-            class="{{
-                request()->routeIs('pemasukans.*') ||
-                request()->routeIs('pengeluarans.*')
-                ? 'active'
-                : ''
-            }}"
-        >
-
-            <i class="bi bi-arrow-left-right"></i>
-
-            <span>
-                Pemasukan & Pengeluaran
-            </span>
-
-        </a>
-
-
-        {{-- ================= FASILITAS ================= --}}
-
-        <a
-            href="{{ route('fasilitas.index') }}"
-            class="{{ request()->routeIs('fasilitas.*') ? 'active' : '' }}"
-        >
-
-            <i class="bi bi-building"></i>
-
-            <span>
-                Data Fasilitas
-            </span>
-
-        </a>
-
-
-        {{-- ================= PENCATATAN ================= --}}
-
-        <a
-            href="{{ route('pencatatans.index') }}"
-            class="{{ request()->routeIs('pencatatans.*') ? 'active' : '' }}"
-        >
-
-            <i class="bi bi-clipboard2-data"></i>
-
-            <span>
-                Administrasi / Pencatatan
-            </span>
-
-        </a>
-
-
-        {{-- ================= KEGIATAN ================= --}}
-
-        <a
-            href="{{ route('kegiatans.index') }}"
-            class="{{ request()->routeIs('kegiatans.*') ? 'active' : '' }}"
-        >
-
-            <i class="bi bi-cloud-arrow-up-fill"></i>
-
-            <span>
-                Upload Kegiatan
-            </span>
-
-        </a>
-
-
-        {{-- ================= VISI MISI ================= --}}
-
-        <a
-            href="#"
-            class="{{ request()->is('visi-misi*') ? 'active' : '' }}"
-        >
-
-            <i class="bi bi-bullseye"></i>
-
-            <span>
-                Visi & Misi
-            </span>
-
-        </a>
-
-
-        {{-- ================= TEKNISI ================= --}}
-
-        <a
-            href="#"
-            class="{{ request()->is('teknisi*') ? 'active' : '' }}"
-        >
-
-            <i class="bi bi-diagram-3-fill"></i>
-
-            <span>
-                Teknisi
-            </span>
-
-        </a>
-
-
-        {{-- ================= LAPORAN ================= --}}
-
-        <a
-            href="#"
-            class="{{ request()->is('laporan*') ? 'active' : '' }}"
-        >
-
-            <i class="bi bi-file-earmark-text-fill"></i>
-
-            <span>
-                Laporan
-            </span>
-
-        </a>
-
-
-        {{-- ================= PENGATURAN ================= --}}
-
-        <a
-            href="#"
-            class="{{ request()->is('pengaturan*') ? 'active' : '' }}"
-        >
-
-            <i class="bi bi-gear-fill"></i>
-
-            <span>
-                Pengaturan
-            </span>
-
-        </a>
-
-
-    </nav>
-
-
-    {{-- =====================================================
-         LOGOUT
-    ====================================================== --}}
-
-    <div class="sidebar-bottom">
-
-        <form
-            action="{{ route('logout') }}"
-            method="POST"
-        >
-
-            @csrf
+            {{-- BUTTON MENU --}}
 
             <button
-                type="submit"
-                class="logout-button"
-                title="Logout"
-            >
+                type="button"
+                class="menu-button"
+                id="menuButton">
 
-                <i class="bi bi-arrow-left"></i>
+                <i class="fas fa-bars"></i>
 
             </button>
 
-        </form>
 
-    </div>
+            {{-- ADMIN --}}
 
-
-</aside>
+            <div class="admin">
 
 
+                <div class="admin-icon">
 
-{{-- =========================================================
-     MAIN
-========================================================= --}}
+                    <i class="fas fa-user"></i>
 
-<main class="main">
-
-
-    {{-- =====================================================
-         TOPBAR
-    ====================================================== --}}
-
-    <header class="topbar">
+                </div>
 
 
-        {{-- HAMBURGER --}}
+                <div class="admin-info">
 
-        <div
-            class="menu-button"
-            onclick="toggleSidebar()"
-        >
+                    <strong>
+                        Admin
+                    </strong>
 
-            <i class="bi bi-list"></i>
+                    <span>
+                        Administrator
+                    </span>
 
-        </div>
+                </div>
 
-
-        {{-- ADMIN --}}
-
-        <div class="admin-profile">
-
-            <div class="admin-icon">
-
-                <i class="bi bi-person-fill"></i>
 
             </div>
 
-
-            <div class="admin-name">
-
-                <strong>
-                    Admin
-                </strong>
-
-                <span>
-                    Administrator
-                </span>
-
-            </div>
-
-        </div>
-
-
-    </header>
-
-
-    {{-- =====================================================
-         ISI HALAMAN
-    ====================================================== --}}
-
-    @yield('content')
-
-
-</main>
+        </header>
 
 
 
-{{-- =========================================================
-     JAVASCRIPT
-========================================================= --}}
+        {{-- =========================================
+             CONTENT
+        ========================================= --}}
 
-<script>
+        <section class="page-content">
 
-    function toggleSidebar()
-    {
-        const sidebar = document.getElementById('sidebar');
+            @yield('content')
 
-        sidebar.classList.toggle('show');
-    }
-
-</script>
+        </section>
 
 
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
+    </main>
 
 
-@stack('scripts')
+
+    {{-- =========================================
+         JAVASCRIPT
+    ========================================= --}}
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+    <script>
+
+        const menuButton =
+            document.getElementById('menuButton');
+
+        const sidebar =
+            document.getElementById('sidebar');
+
+
+        menuButton.addEventListener('click', function () {
+
+            sidebar.classList.toggle('show');
+
+        });
+
+
+        /*
+         * Tutup sidebar ketika klik di luar
+         * pada tampilan mobile
+         */
+
+        document.addEventListener('click', function (event) {
+
+            if (window.innerWidth <= 992) {
+
+                if (
+                    !sidebar.contains(event.target) &&
+                    !menuButton.contains(event.target)
+                ) {
+
+                    sidebar.classList.remove('show');
+
+                }
+
+            }
+
+        });
+
+    </script>
 
 
 </body>

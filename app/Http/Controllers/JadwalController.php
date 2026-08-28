@@ -4,47 +4,59 @@ namespace App\Http\Controllers;
 
 use App\Models\Jadwal;
 use Illuminate\Http\Request;
+use App\Models\Petugas;
 
 class JadwalController extends Controller
 {
     public function index()
     {
-        $jadwals = Jadwal::orderBy('tanggal', 'desc')->get();
+        $jadwals = Jadwal::with('petugas')
+            ->latest('tanggal')
+            ->get();
 
         return view('jadwals.index', compact('jadwals'));
-
     }
 
     public function create()
     {
-        return view('jadwals.create');
+        $petugas = Petugas::orderBy('nama')->get();
+
+        return view('jadwals.create', compact('petugas'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'tanggal' => 'required|date',
-            'petugas' => 'required|string|max:255',
             'wilayah_rt' => 'required|string|max:20',
+            'petugas' => 'required|array|min:1',
+            'petugas.*' => 'exists:petugas,id',
         ]);
 
-        Jadwal::create($validated);
+        $jadwal = Jadwal::create([
+            'tanggal' => $validated['tanggal'],
+            'wilayah_rt' => $validated['wilayah_rt'],
+        ]);
+
+        $jadwal->petugas()->sync($validated['petugas']);
 
         return redirect()
             ->route('jadwals.index')
-            ->with('success', 'Jadwal berhasil ditambahkan.');
+            ->with('success', 'Jadwal pemungutan berhasil ditambahkan.');
     }
 
     public function edit(Jadwal $jadwal)
     {
-        return view('jadwals.edit', compact('jadwal'));
+        $petugas = Petugas::orderBy('nama')->get();
+
+        return view('jadwals.edit', compact('jadwal', 'petugas'));
     }
 
     public function update(Request $request, Jadwal $jadwal)
     {
         $validated = $request->validate([
             'tanggal' => 'required|date',
-            'petugas' => 'required|string|max:255',
+            'petugas_id' => 'required|exists:petugas,id',
             'wilayah_rt' => 'required|string|max:20',
         ]);
 
@@ -52,9 +64,8 @@ class JadwalController extends Controller
 
         return redirect()
             ->route('jadwals.index')
-            ->with('success', 'Jadwal berhasil diperbarui.');
+            ->with('success', 'Jadwal pemungutan berhasil diperbarui.');
     }
-
     public function destroy(Jadwal $jadwal)
     {
         $jadwal->delete();

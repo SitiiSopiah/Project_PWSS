@@ -1,337 +1,215 @@
 @extends('layouts.app')
 
-@section('title', 'Data Kegiatan')
+@section('title', 'Upload Kegiatan')
 
 @section('content')
 
-{{-- HEADER --}}
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container-fluid p-0">
 
-    <div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <h2 class="fw-bold mb-1">
-            Data Kegiatan
-        </h2>
+        <div>
 
-        <p class="text-muted mb-0">
-            Kelola dokumentasi kegiatan Bank Sampah Kampung Panyalahan.
-        </p>
+            <h2 class="fw-bold mb-1">
+                Upload Kegiatan
+            </h2>
 
-    </div>
+            <p class="text-muted mb-0">
+                Dokumentasi kegiatan Kampung Panyalahan.
+            </p>
 
-    <a
-        href="{{ route('kegiatans.create') }}"
-        class="btn btn-success">
+        </div>
 
-        <i class="bi bi-plus-circle me-1"></i>
+        <a
+            href="{{ route('kegiatans.create') }}"
+            class="btn btn-success">
 
-        Tambah Kegiatan
+            <i class="fas fa-plus me-2"></i>
 
-    </a>
+            Tambah Kegiatan
 
-</div>
-
-
-{{-- BREADCRUMB --}}
-<nav aria-label="breadcrumb" class="mb-4">
-
-    <ol class="breadcrumb">
-
-        <li class="breadcrumb-item">
-
-            <a
-                href="{{ route('jadwals.index') }}"
-                class="text-decoration-none">
-
-                Dashboard
-
-            </a>
-
-        </li>
-
-        <li
-            class="breadcrumb-item active"
-            aria-current="page">
-
-            Data Kegiatan
-
-        </li>
-
-    </ol>
-
-</nav>
-
-
-{{-- SUCCESS --}}
-@if(session('success'))
-
-    <div
-        class="alert alert-success alert-dismissible fade show"
-        role="alert">
-
-        <i class="bi bi-check-circle me-2"></i>
-
-        {{ session('success') }}
-
-        <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert">
-        </button>
+        </a>
 
     </div>
 
-@endif
+
+    @if(session('success'))
+
+        <div class="alert alert-success">
+
+            <i class="fas fa-check-circle me-2"></i>
+
+            {{ session('success') }}
+
+        </div>
+
+    @endif
 
 
-{{-- CARD --}}
-<div class="card border-0 shadow-sm">
+    <div class="row">
 
-    {{-- CARD HEADER --}}
-    <div class="card-header bg-white py-3">
+        @forelse($kegiatans as $kegiatan)
 
-        <div class="d-flex justify-content-between align-items-center">
+            <div class="col-md-4 mb-4">
 
-            <div>
+                <div class="card border-0 shadow-sm h-100">
 
-                <h5 class="fw-bold mb-1">
+                    @if($kegiatan->foto)
 
-                    <i class="bi bi-images text-success me-2"></i>
+                        <img
+                            src="{{ asset('storage/' . $kegiatan->foto) }}"
+                            class="card-img-top kegiatan-image"
+                            alt="{{ $kegiatan->judul }}">
 
-                    Daftar Kegiatan
+                    @else
 
-                </h5>
+                        <div class="no-image">
 
-                <small class="text-muted">
+                            <i class="fas fa-image fa-3x"></i>
 
-                    Dokumentasi kegiatan Bank Sampah.
+                        </div>
 
-                </small>
+                    @endif
+
+
+                    <div class="card-body">
+
+                        <h5 class="fw-bold">
+                            {{ $kegiatan->judul }}
+                        </h5>
+
+                        <small class="text-muted">
+
+                            <i class="fas fa-calendar-alt me-1"></i>
+
+                            {{ $kegiatan->tanggal->format('d-m-Y') }}
+
+                        </small>
+
+                        @if($kegiatan->keterangan)
+
+                            <p class="text-muted mt-3 mb-0">
+                                {{ $kegiatan->keterangan }}
+                            </p>
+
+                        @endif
+
+                    </div>
+
+
+                    <div class="card-footer bg-white border-0">
+
+                        <div class="d-flex gap-2">
+
+                            <a
+                                href="{{ route('kegiatans.edit', $kegiatan->id) }}"
+                                class="btn btn-warning btn-sm">
+
+                                <i class="fas fa-edit"></i>
+
+                                Edit
+
+                            </a>
+
+
+                            <form
+                                action="{{ route('kegiatans.destroy', $kegiatan->id) }}"
+                                method="POST"
+                                onsubmit="return confirm('Yakin ingin menghapus kegiatan ini?')">
+
+                                @csrf
+
+                                @method('DELETE')
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-danger btn-sm">
+
+                                    <i class="fas fa-trash"></i>
+
+                                    Hapus
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <span class="badge bg-success rounded-pill">
+        @empty
 
-                {{ $kegiatans->count() }} Kegiatan
+            <div class="col-12">
 
-            </span>
+                <div class="card border-0 shadow-sm">
 
-        </div>
+                    <div class="card-body text-center py-5">
 
-    </div>
+                        <i class="fas fa-images fa-4x text-success mb-3"></i>
 
+                        <h4 class="fw-bold">
+                            Belum Ada Kegiatan
+                        </h4>
 
-    {{-- BODY --}}
-    <div class="card-body">
+                        <p class="text-muted">
+                            Belum ada dokumentasi kegiatan yang diupload.
+                        </p>
 
-        <div class="table-responsive">
+                        <a
+                            href="{{ route('kegiatans.create') }}"
+                            class="btn btn-success">
 
-            <table class="table table-hover align-middle mb-0">
+                            <i class="fas fa-plus me-1"></i>
 
-                <thead class="table-success">
+                            Tambah Kegiatan
 
-                    <tr>
+                        </a>
 
-                        <th style="width: 60px;">
-                            No
-                        </th>
+                    </div>
 
-                        <th style="width: 120px;">
-                            Foto
-                        </th>
+                </div>
 
-                        <th>
-                            Judul
-                        </th>
+            </div>
 
-                        <th style="width: 130px;">
-                            Tanggal
-                        </th>
-
-                        <th>
-                            Keterangan
-                        </th>
-
-                        <th style="width: 140px;">
-                            Aksi
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                    @forelse($kegiatans as $kegiatan)
-
-                        <tr>
-
-                            {{-- NO --}}
-                            <td>
-                                {{ $loop->iteration }}
-                            </td>
-
-
-                            {{-- FOTO --}}
-                            <td>
-
-                                @if($kegiatan->foto)
-
-                                    <img
-                                        src="{{ asset('storage/' . $kegiatan->foto) }}"
-                                        alt="{{ $kegiatan->judul }}"
-                                        width="90"
-                                        height="65"
-                                        class="rounded"
-                                        style="object-fit: cover;">
-
-                                @else
-
-                                    <div
-                                        class="bg-light rounded d-flex align-items-center justify-content-center"
-                                        style="width: 90px; height: 65px;">
-
-                                        <i
-                                            class="bi bi-image text-muted"
-                                            style="font-size: 25px;">
-                                        </i>
-
-                                    </div>
-
-                                @endif
-
-                            </td>
-
-
-                            {{-- JUDUL --}}
-                            <td>
-
-                                <span class="fw-semibold">
-
-                                    {{ $kegiatan->judul }}
-
-                                </span>
-
-                            </td>
-
-
-                            {{-- TANGGAL --}}
-                            <td>
-
-                                {{ $kegiatan->tanggal->format('d-m-Y') }}
-
-                            </td>
-
-
-                            {{-- KETERANGAN --}}
-                            <td>
-
-                                @if($kegiatan->keterangan)
-
-                                    {{ $kegiatan->keterangan }}
-
-                                @else
-
-                                    <span class="text-muted">
-                                        -
-                                    </span>
-
-                                @endif
-
-                            </td>
-
-
-                            {{-- AKSI --}}
-                            <td>
-
-                                {{-- EDIT --}}
-                                <a
-                                    href="{{ route('kegiatans.edit', $kegiatan->id) }}"
-                                    class="btn btn-sm btn-warning"
-                                    title="Edit">
-
-                                    <i class="bi bi-pencil-square"></i>
-
-                                </a>
-
-
-                                {{-- HAPUS --}}
-                                <form
-                                    action="{{ route('kegiatans.destroy', $kegiatan->id) }}"
-                                    method="POST"
-                                    class="d-inline"
-                                    onsubmit="return confirm('Yakin ingin menghapus kegiatan ini?')">
-
-                                    @csrf
-
-                                    @method('DELETE')
-
-                                    <button
-                                        type="submit"
-                                        class="btn btn-sm btn-danger"
-                                        title="Hapus">
-
-                                        <i class="bi bi-trash"></i>
-
-                                    </button>
-
-                                </form>
-
-                            </td>
-
-                        </tr>
-
-
-                    @empty
-
-                        <tr>
-
-                            <td
-                                colspan="6"
-                                class="text-center py-5">
-
-                                <i
-                                    class="bi bi-images"
-                                    style="font-size: 50px; color: #adb5bd;">
-                                </i>
-
-                                <h6 class="fw-bold mt-3">
-
-                                    Belum Ada Data Kegiatan
-
-                                </h6>
-
-                                <p class="text-muted">
-
-                                    Silakan tambahkan dokumentasi kegiatan.
-
-                                </p>
-
-                                <a
-                                    href="{{ route('kegiatans.create') }}"
-                                    class="btn btn-success">
-
-                                    <i class="bi bi-plus-circle me-1"></i>
-
-                                    Tambah Kegiatan
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                    @endforelse
-
-                </tbody>
-
-            </table>
-
-        </div>
+        @endforelse
 
     </div>
 
 </div>
+
+
+<style>
+
+.kegiatan-image {
+
+    width: 100%;
+
+    height: 230px;
+
+    object-fit: cover;
+
+}
+
+.no-image {
+
+    height: 230px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #e8f5ec;
+
+    color: #198754;
+
+}
+
+</style>
 
 @endsection
