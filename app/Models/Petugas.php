@@ -11,9 +11,9 @@ class Petugas extends Model
 
     protected $fillable = [
         'nama',
-        'alamat',
         'no_hp',
-        'jabatan',
+        'wilayah_rt',
+        'status',
     ];
 
     public function jadwals()

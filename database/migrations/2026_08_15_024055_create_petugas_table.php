@@ -9,11 +9,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('petugas', function (Blueprint $table) {
+
             $table->id();
+
             $table->string('nama');
+
             $table->string('no_hp', 20)->nullable();
+
             $table->string('wilayah_rt', 20);
-            $table->string('status')->default('Aktif');
+
+            $table->string('status', 50);
+
             $table->timestamps();
         });
     }

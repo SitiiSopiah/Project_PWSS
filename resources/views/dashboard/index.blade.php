@@ -17,7 +17,7 @@
 
     <hr>
 
-    <h2 class="text-success">
+    <h2 class="text-success mb-4">
         Dokumentasi Kegiatan
     </h2>
 

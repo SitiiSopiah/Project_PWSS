@@ -213,23 +213,16 @@
 
         .topbar {
             height: 90px;
-
             background: #ffffff;
-
             border-bottom: 1px solid #e1e1e1;
 
             display: flex;
-
             align-items: center;
-
-            justify-content: space-between;
 
             padding: 0 35px;
 
             position: sticky;
-
             top: 0;
-
             z-index: 900;
         }
 
@@ -239,26 +232,18 @@
         .menu-button {
             width: 45px;
             height: 45px;
-
             border: none;
-
             background: transparent;
 
-            display: flex;
+            display: none;
 
             align-items: center;
-
             justify-content: center;
 
             color: #555;
-
             font-size: 25px;
-
             cursor: pointer;
-
             border-radius: 8px;
-
-            transition: 0.2s;
         }
 
 
@@ -268,6 +253,9 @@
             color: #087f3f;
         }
 
+        .menu-button {
+            display: none !important;
+        }
 
         /* =========================================
            ADMIN
@@ -275,10 +263,9 @@
 
         .admin {
             display: flex;
-
             align-items: center;
-
             gap: 12px;
+            margin-left: auto;
         }
 
 
@@ -299,6 +286,8 @@
             justify-content: center;
 
             font-size: 18px;
+
+            margin-left: auto;
         }
 
 
@@ -418,6 +407,10 @@
 
             .page-content {
                 padding: 25px 20px;
+            }
+
+            .menu-button {
+                display: flex !important;
             }
 
         }

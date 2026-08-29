@@ -11,12 +11,12 @@ class PemasukanController extends Controller
     {
         $pemasukans = Pemasukan::latest('tanggal')->get();
 
-        return view('pemasukan.index', compact('pemasukans'));
+        return view('administrasi.index', compact('pemasukans'));
     }
 
     public function create()
     {
-        return view('pemasukan.create');
+        return view('administrasi.pemasukan.create');
     }
 
     public function store(Request $request)
@@ -32,13 +32,16 @@ class PemasukanController extends Controller
         Pemasukan::create($validated);
 
         return redirect()
-            ->route('pemasukan.index')
+            ->route('administrasi.index')
             ->with('success', 'Data pemasukan berhasil ditambahkan.');
     }
 
     public function edit(Pemasukan $pemasukan)
     {
-        return view('pemasukan.edit', compact('pemasukan'));
+        return view(
+            'administrasi.pemasukan.edit',
+            compact('pemasukan')
+        );
     }
 
     public function update(Request $request, Pemasukan $pemasukan)
@@ -54,7 +57,7 @@ class PemasukanController extends Controller
         $pemasukan->update($validated);
 
         return redirect()
-            ->route('pemasukan.index')
+            ->route('administrasi.index')
             ->with('success', 'Data pemasukan berhasil diperbarui.');
     }
 
@@ -63,7 +66,7 @@ class PemasukanController extends Controller
         $pemasukan->delete();
 
         return redirect()
-            ->route('pemasukan.index')
+            ->route('administrasi.index')
             ->with('success', 'Data pemasukan berhasil dihapus.');
     }
 }

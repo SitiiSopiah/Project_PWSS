@@ -29,6 +29,7 @@ class KegiatanController extends Controller
             'keterangan' => 'nullable|string',
         ]);
 
+        // Upload foto
         if ($request->hasFile('foto')) {
             $validated['foto'] = $request->file('foto')
                 ->store('kegiatan', 'public');
@@ -38,7 +39,7 @@ class KegiatanController extends Controller
 
         return redirect()
             ->route('kegiatans.index')
-            ->with('success', 'Dokumentasi kegiatan berhasil ditambahkan.');
+            ->with('success', 'Kegiatan berhasil ditambahkan.');
     }
 
     public function edit(Kegiatan $kegiatan)
@@ -55,12 +56,15 @@ class KegiatanController extends Controller
             'keterangan' => 'nullable|string',
         ]);
 
+        // Kalau upload foto baru
         if ($request->hasFile('foto')) {
 
+            // Hapus foto lama
             if ($kegiatan->foto) {
                 Storage::disk('public')->delete($kegiatan->foto);
             }
 
+            // Simpan foto baru
             $validated['foto'] = $request->file('foto')
                 ->store('kegiatan', 'public');
         }
@@ -69,7 +73,7 @@ class KegiatanController extends Controller
 
         return redirect()
             ->route('kegiatans.index')
-            ->with('success', 'Dokumentasi kegiatan berhasil diperbarui.');
+            ->with('success', 'Kegiatan berhasil diperbarui.');
     }
 
     public function destroy(Kegiatan $kegiatan)
@@ -82,6 +86,6 @@ class KegiatanController extends Controller
 
         return redirect()
             ->route('kegiatans.index')
-            ->with('success', 'Dokumentasi kegiatan berhasil dihapus.');
+            ->with('success', 'Kegiatan berhasil dihapus.');
     }
 }

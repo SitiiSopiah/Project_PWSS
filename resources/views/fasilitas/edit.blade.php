@@ -129,197 +129,95 @@
 
     <div class="card-body">
 
-        <form
-            action="{{ route('fasilitas.update', $fasilitas->id) }}"
+        <form action="{{ route('fasilitas.update', ['fasilitas' => $fasilitas->id]) }}"
             method="POST">
 
             @csrf
-
             @method('PUT')
 
-
             {{-- NAMA FASILITAS --}}
-            <div class="mb-4">
+            <div class="mb-3">
+    <label class="form-label fw-semibold">
+        Nama Fasilitas
+    </label>
 
-                <label
-                    for="nama_fasilitas"
-                    class="form-label fw-semibold">
-
-                    Nama Fasilitas
-
-                    <span class="text-danger">*</span>
-
-                </label>
-
-                <input
-                    type="text"
-                    id="nama_fasilitas"
-                    name="nama_fasilitas"
-                    class="form-control @error('nama_fasilitas') is-invalid @enderror"
-                    value="{{ old('nama_fasilitas', $fasilitas->nama_fasilitas) }}"
-                    required>
-
-                @error('nama_fasilitas')
-
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-
-                @enderror
-
-            </div>
-
+    <input
+        type="text"
+        name="nama_fasilitas"
+        class="form-control"
+        placeholder="Masukkan nama fasilitas"
+        value="{{ old('nama_fasilitas', $fasilitas->nama_fasilitas) }}"
+        required>
+</div>
 
             {{-- JUMLAH --}}
-            <div class="mb-4">
+            <div class="mb-3">
+    <label class="form-label fw-semibold">
+        Jumlah
+    </label>
 
-                <label
-                    for="jumlah"
-                    class="form-label fw-semibold">
-
-                    Jumlah
-
-                    <span class="text-danger">*</span>
-
-                </label>
-
-                <input
-                    type="number"
-                    id="jumlah"
-                    name="jumlah"
-                    class="form-control @error('jumlah') is-invalid @enderror"
-                    value="{{ old('jumlah', $fasilitas->jumlah) }}"
-                    min="0"
-                    required>
-
-                @error('jumlah')
-
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-
-                @enderror
-
-                <div class="form-text">
-
-                    Masukkan jumlah fasilitas yang tersedia.
-
-                </div>
-
-            </div>
-
+    <input
+        type="number"
+        name="jumlah"
+        class="form-control"
+        value="{{ old('jumlah', $fasilitas->jumlah) }}"
+        min="1"
+        required>
+</div>
 
             {{-- KONDISI --}}
-            <div class="mb-4">
+            <div class="mb-3">
+    <label class="form-label fw-semibold">
+        Kondisi
+    </label>
 
-                <label
-                    for="kondisi"
-                    class="form-label fw-semibold">
+    <select name="kondisi" class="form-select" required>
 
-                    Kondisi
+        <option value="Baik"
+            {{ old('kondisi', $fasilitas->kondisi) == 'Baik' ? 'selected' : '' }}>
+            Baik
+        </option>
 
-                    <span class="text-danger">*</span>
+        <option value="Rusak Ringan"
+            {{ old('kondisi', $fasilitas->kondisi) == 'Rusak Ringan' ? 'selected' : '' }}>
+            Rusak Ringan
+        </option>
 
-                </label>
+        <option value="Rusak Berat"
+            {{ old('kondisi', $fasilitas->kondisi) == 'Rusak Berat' ? 'selected' : '' }}>
+            Rusak Berat
+        </option>
 
-                <select
-                    id="kondisi"
-                    name="kondisi"
-                    class="form-select @error('kondisi') is-invalid @enderror"
-                    required>
-
-                    <option value="">
-                        -- Pilih Kondisi --
-                    </option>
-
-                    <option
-                        value="Baik"
-                        {{ old('kondisi', $fasilitas->kondisi) == 'Baik' ? 'selected' : '' }}>
-
-                        Baik
-
-                    </option>
-
-                    <option
-                        value="Rusak Ringan"
-                        {{ old('kondisi', $fasilitas->kondisi) == 'Rusak Ringan' ? 'selected' : '' }}>
-
-                        Rusak Ringan
-
-                    </option>
-
-                    <option
-                        value="Rusak"
-                        {{ old('kondisi', $fasilitas->kondisi) == 'Rusak' ? 'selected' : '' }}>
-
-                        Rusak
-
-                    </option>
-
-                </select>
-
-                @error('kondisi')
-
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-
-                @enderror
-
-            </div>
-
+    </select>
+</div>
 
             {{-- KETERANGAN --}}
             <div class="mb-4">
+    <label class="form-label fw-semibold">
+        Keterangan
+    </label>
 
-                <label
-                    for="keterangan"
-                    class="form-label fw-semibold">
-
-                    Keterangan
-
-                </label>
-
-                <textarea
-                    id="keterangan"
-                    name="keterangan"
-                    rows="4"
-                    class="form-control @error('keterangan') is-invalid @enderror"
-                    placeholder="Masukkan keterangan fasilitas">{{ old('keterangan', $fasilitas->keterangan) }}</textarea>
-
-                @error('keterangan')
-
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-
-                @enderror
-
-            </div>
-
-
-            <hr class="my-4">
-
+    <textarea
+        name="keterangan"
+        class="form-control"
+        rows="4">{{ old('keterangan', $fasilitas->keterangan) }}</textarea>
+</div>
 
             {{-- BUTTON --}}
-            <div class="d-flex justify-content-end gap-2">
+            <div class="d-flex gap-2">
 
-                <a
-                    href="{{ route('fasilitas.index') }}"
-                    class="btn btn-secondary">
+                <a href="{{ route('fasilitas.index') }}"
+                class="btn btn-secondary">
 
-                    <i class="bi bi-x-circle me-1"></i>
-
-                    Batal
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Kembali
 
                 </a>
 
-                <button
-                    type="submit"
-                    class="btn btn-success">
+                <button type="submit"
+                        class="btn btn-success">
 
-                    <i class="bi bi-save me-1"></i>
-
+                    <i class="fas fa-save me-2"></i>
                     Simpan Perubahan
 
                 </button>

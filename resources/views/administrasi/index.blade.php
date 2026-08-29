@@ -7,22 +7,49 @@
 <div class="container-fluid p-0">
 
     {{-- HEADER --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">
+            Pemasukan & Pengeluaran
+        </h2>
 
-        <div>
-            <h2 class="fw-bold mb-1">
-                Pemasukan & Pengeluaran
-            </h2>
-
-            <p class="text-muted mb-0">
-                Data pemasukan dan pengeluaran Kampung Panyalahan.
-            </p>
-        </div>
-
+        <p class="text-muted mb-0">
+            Data pemasukan dan pengeluaran Kampung Panyalahan.
+        </p>
     </div>
 
 
-    {{-- RINGKASAN KEUANGAN --}}
+    {{-- PESAN SUKSES --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            {{ session('success') }}
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    @endif
+
+
+    {{-- PESAN ERROR --}}
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <strong>Terjadi kesalahan:</strong>
+
+            <ul class="mb-0 mt-2">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+
+    {{-- =========================================
+         RINGKASAN KEUANGAN
+    ========================================== --}}
+
     <div class="row g-4 mb-4">
 
         {{-- TOTAL PEMASUKAN --}}
@@ -35,15 +62,13 @@
                     <div class="d-flex justify-content-between align-items-center">
 
                         <div>
-
                             <p class="text-muted mb-2">
                                 Total Pemasukan
                             </p>
 
                             <h3 class="fw-bold text-success mb-0">
-                                Rp {{ number_format($totalPemasukan, 0, ',', '.') }}
+                                Rp {{ number_format($totalPemasukan ?? 0, 0, ',', '.') }}
                             </h3>
-
                         </div>
 
                         <div class="summary-icon income">
@@ -69,15 +94,13 @@
                     <div class="d-flex justify-content-between align-items-center">
 
                         <div>
-
                             <p class="text-muted mb-2">
                                 Total Pengeluaran
                             </p>
 
                             <h3 class="fw-bold text-danger mb-0">
-                                Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}
+                                Rp {{ number_format($totalPengeluaran ?? 0, 0, ',', '.') }}
                             </h3>
-
                         </div>
 
                         <div class="summary-icon expense">
@@ -96,22 +119,20 @@
         {{-- SALDO AKHIR --}}
         <div class="col-md-4">
 
-            <div class="card summary-card saldo-card h-100">
+            <div class="card summary-card h-100">
 
                 <div class="card-body p-4">
 
                     <div class="d-flex justify-content-between align-items-center">
 
                         <div>
-
                             <p class="text-muted mb-2">
                                 Saldo Akhir
                             </p>
 
                             <h3 class="fw-bold text-primary mb-0">
-                                Rp {{ number_format($saldoAkhir, 0, ',', '.') }}
+                                Rp {{ number_format($saldoAkhir ?? 0, 0, ',', '.') }}
                             </h3>
-
                         </div>
 
                         <div class="summary-icon saldo">
@@ -129,11 +150,13 @@
     </div>
 
 
-    {{-- MENU PEMASUKAN / PENGELUARAN --}}
-    <div class="card">
+    {{-- =========================================
+         CARD PEMASUKAN & PENGELUARAN
+    ========================================== --}}
+
+    <div class="card border-0 shadow-sm rounded-4">
 
         <div class="card-body p-4">
-
 
             {{-- TAB --}}
             <ul class="nav nav-tabs mb-4" id="administrasiTab">
@@ -148,13 +171,11 @@
                         type="button">
 
                         <i class="fas fa-arrow-down me-2"></i>
-
                         Pemasukan
 
                     </button>
 
                 </li>
-
 
                 <li class="nav-item">
 
@@ -166,7 +187,6 @@
                         type="button">
 
                         <i class="fas fa-arrow-up me-2"></i>
-
                         Pengeluaran
 
                     </button>
@@ -176,13 +196,12 @@
             </ul>
 
 
-            {{-- ISI TAB --}}
             <div class="tab-content">
 
 
                 {{-- =========================================
-                     PEMASUKAN
-                ========================================= --}}
+                     TAB PEMASUKAN
+                ========================================== --}}
 
                 <div
                     class="tab-pane fade show active"
@@ -191,7 +210,6 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
 
                         <div>
-
                             <h5 class="fw-bold mb-1">
                                 Data Pemasukan
                             </h5>
@@ -199,16 +217,13 @@
                             <small class="text-muted">
                                 Data hasil pembayaran pengelolaan sampah.
                             </small>
-
                         </div>
-
 
                         <a
                             href="{{ route('pemasukans.create') }}"
                             class="btn btn-success">
 
                             <i class="fas fa-plus me-1"></i>
-
                             Tambah Pemasukan
 
                         </a>
@@ -221,7 +236,6 @@
                         <table class="table table-bordered table-hover align-middle">
 
                             <thead>
-
                                 <tr>
 
                                     <th width="60">
@@ -248,12 +262,11 @@
                                         Keterangan
                                     </th>
 
-                                    <th width="150">
+                                    <th width="120">
                                         Aksi
                                     </th>
 
                                 </tr>
-
                             </thead>
 
 
@@ -261,90 +274,88 @@
 
                                 @forelse($pemasukans as $pemasukan)
 
-                                <tr>
+                                    <tr>
 
-                                    <td>
-                                        {{ $loop->iteration }}
-                                    </td>
+                                        <td>
+                                            {{ $loop->iteration }}
+                                        </td>
 
-                                    <td>
-                                        {{ \Carbon\Carbon::parse($pemasukan->tanggal)->format('d-m-Y') }}
-                                    </td>
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($pemasukan->tanggal)->format('d-m-Y') }}
+                                        </td>
 
-                                    <td>
-                                        {{ $pemasukan->sumber }}
-                                    </td>
+                                        <td>
+                                            {{ $pemasukan->sumber }}
+                                        </td>
 
-                                    <td>
-                                        {{ $pemasukan->jumlah_karung }}
-                                    </td>
+                                        <td>
+                                            {{ $pemasukan->jumlah_karung }}
+                                        </td>
 
-                                    <td class="fw-bold text-success">
+                                        <td class="fw-bold text-success">
+                                            Rp {{ number_format($pemasukan->total, 0, ',', '.') }}
+                                        </td>
 
-                                        Rp
-                                        {{ number_format($pemasukan->total, 0, ',', '.') }}
+                                        <td>
+                                            {{ $pemasukan->keterangan ?: '-' }}
+                                        </td>
 
-                                    </td>
+                                        <td>
 
-                                    <td>
-                                        {{ $pemasukan->keterangan ?? '-' }}
-                                    </td>
+                                            <div class="d-flex gap-1">
 
-                                    <td>
+                                                <a
+                                                    href="{{ route('pemasukans.edit', $pemasukan->id) }}"
+                                                    class="btn btn-warning btn-sm"
+                                                    title="Edit">
 
-                                        <div class="d-flex gap-1">
+                                                    <i class="fas fa-edit"></i>
 
-                                            <a
-                                                href="{{ route('pemasukans.edit', $pemasukan->id) }}"
-                                                class="btn btn-warning btn-sm">
-
-                                                <i class="fas fa-edit"></i>
-
-                                            </a>
+                                                </a>
 
 
-                                            <form
-                                                action="{{ route('pemasukans.destroy', $pemasukan->id) }}"
-                                                method="POST"
-                                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                <form
+                                                    action="{{ route('pemasukans.destroy', $pemasukan->id) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Yakin ingin menghapus data pemasukan ini?')">
 
-                                                @csrf
+                                                    @csrf
+                                                    @method('DELETE')
 
-                                                @method('DELETE')
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-danger btn-sm"
+                                                        title="Hapus">
 
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-trash"></i>
 
-                                                    <i class="fas fa-trash"></i>
+                                                    </button>
 
-                                                </button>
+                                                </form>
 
-                                            </form>
+                                            </div>
 
-                                        </div>
+                                        </td>
 
-                                    </td>
-
-                                </tr>
+                                    </tr>
 
                                 @empty
 
-                                <tr>
+                                    <tr>
 
-                                    <td
-                                        colspan="7"
-                                        class="text-center py-5">
+                                        <td
+                                            colspan="7"
+                                            class="text-center py-5">
 
-                                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
 
-                                        <p class="text-muted mb-0">
-                                            Belum ada data pemasukan.
-                                        </p>
+                                            <p class="text-muted mb-0">
+                                                Belum ada data pemasukan.
+                                            </p>
 
-                                    </td>
+                                        </td>
 
-                                </tr>
+                                    </tr>
 
                                 @endforelse
 
@@ -358,8 +369,8 @@
 
 
                 {{-- =========================================
-                     PENGELUARAN
-                ========================================= --}}
+                     TAB PENGELUARAN
+                ========================================== --}}
 
                 <div
                     class="tab-pane fade"
@@ -385,7 +396,6 @@
                             class="btn btn-danger">
 
                             <i class="fas fa-plus me-1"></i>
-
                             Tambah Pengeluaran
 
                         </a>
@@ -410,18 +420,14 @@
                                     </th>
 
                                     <th>
-                                        Keperluan
-                                    </th>
-
-                                    <th>
-                                        Total
+                                        Jumlah
                                     </th>
 
                                     <th>
                                         Keterangan
                                     </th>
 
-                                    <th width="150">
+                                    <th width="120">
                                         Aksi
                                     </th>
 
@@ -434,86 +440,80 @@
 
                                 @forelse($pengeluarans as $pengeluaran)
 
-                                <tr>
+                                    <tr>
 
-                                    <td>
-                                        {{ $loop->iteration }}
-                                    </td>
+                                        <td>
+                                            {{ $loop->iteration }}
+                                        </td>
 
-                                    <td>
-                                        {{ \Carbon\Carbon::parse($pengeluaran->tanggal)->format('d-m-Y') }}
-                                    </td>
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($pengeluaran->tanggal)->format('d-m-Y') }}
+                                        </td>
 
-                                    <td>
-                                        {{ $pengeluaran->keperluan }}
-                                    </td>
+                                        <td class="fw-bold text-danger">
+                                            Rp {{ number_format($pengeluaran->jumlah, 0, ',', '.') }}
+                                        </td>
 
-                                    <td class="fw-bold text-danger">
+                                        <td>
+                                            {{ $pengeluaran->keterangan ?: '-' }}
+                                        </td>
 
-                                        Rp
-                                        {{ number_format($pengeluaran->total, 0, ',', '.') }}
+                                        <td>
 
-                                    </td>
+                                            <div class="d-flex gap-1">
 
-                                    <td>
-                                        {{ $pengeluaran->keterangan ?? '-' }}
-                                    </td>
+                                                <a
+                                                    href="{{ route('pengeluarans.edit', $pengeluaran->id) }}"
+                                                    class="btn btn-warning btn-sm"
+                                                    title="Edit">
 
-                                    <td>
+                                                    <i class="fas fa-edit"></i>
 
-                                        <div class="d-flex gap-1">
-
-                                            <a
-                                                href="{{ route('pengeluarans.edit', $pengeluaran->id) }}"
-                                                class="btn btn-warning btn-sm">
-
-                                                <i class="fas fa-edit"></i>
-
-                                            </a>
+                                                </a>
 
 
-                                            <form
-                                                action="{{ route('pengeluarans.destroy', $pengeluaran->id) }}"
-                                                method="POST"
-                                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                <form
+                                                    action="{{ route('pengeluarans.destroy', $pengeluaran->id) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Yakin ingin menghapus data pengeluaran ini?')">
 
-                                                @csrf
+                                                    @csrf
+                                                    @method('DELETE')
 
-                                                @method('DELETE')
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-danger btn-sm"
+                                                        title="Hapus">
 
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-trash"></i>
 
-                                                    <i class="fas fa-trash"></i>
+                                                    </button>
 
-                                                </button>
+                                                </form>
 
-                                            </form>
+                                            </div>
 
-                                        </div>
+                                        </td>
 
-                                    </td>
-
-                                </tr>
+                                    </tr>
 
                                 @empty
 
-                                <tr>
+                                    <tr>
 
-                                    <td
-                                        colspan="6"
-                                        class="text-center py-5">
+                                        <td
+                                            colspan="5"
+                                            class="text-center py-5">
 
-                                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
 
-                                        <p class="text-muted mb-0">
-                                            Belum ada data pengeluaran.
-                                        </p>
+                                            <p class="text-muted mb-0">
+                                                Belum ada data pengeluaran.
+                                            </p>
 
-                                    </td>
+                                        </td>
 
-                                </tr>
+                                    </tr>
 
                                 @endforelse
 
@@ -550,7 +550,13 @@
     transform: translateY(-2px);
 }
 
+
+/* =========================================
+   SUMMARY ICON
+========================================= */
+
 .summary-icon {
+
     width: 52px;
     height: 52px;
 
@@ -588,6 +594,7 @@
 }
 
 .nav-tabs .nav-link {
+
     color: #555;
 
     font-weight: 600;
@@ -597,6 +604,7 @@
     border: none;
 
     border-bottom: 3px solid transparent;
+
 }
 
 .nav-tabs .nav-link:hover {
@@ -604,6 +612,7 @@
 }
 
 .nav-tabs .nav-link.active {
+
     color: #188c20;
 
     background: white;
@@ -611,6 +620,7 @@
     border: none;
 
     border-bottom: 3px solid #188c20;
+
 }
 
 
@@ -619,11 +629,28 @@
 ========================================= */
 
 .table thead th {
+
     white-space: nowrap;
+
+    background: #dff1e8;
+
 }
 
 .table tbody tr:hover {
+
     background: #f8fffa;
+
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.btn {
+
+    border-radius: 6px;
+
 }
 
 

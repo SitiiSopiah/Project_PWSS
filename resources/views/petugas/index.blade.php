@@ -10,7 +10,6 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
-
             <h2 class="fw-bold mb-1">
                 Data Petugas
             </h2>
@@ -18,14 +17,12 @@
             <p class="text-muted mb-0">
                 Data petugas pengelolaan sampah Kampung Panyalahan.
             </p>
-
         </div>
 
         <a href="{{ route('petugas.create') }}"
            class="btn btn-success">
 
             <i class="fas fa-plus me-2"></i>
-
             Tambah Petugas
 
         </a>
@@ -34,14 +31,14 @@
 
 
     {{-- CARD --}}
-    <div class="card">
+    <div class="card border-0 shadow-sm">
 
         <div class="card-body p-4">
 
+            {{-- HEADER TABLE --}}
             <div class="d-flex justify-content-between align-items-center mb-3">
 
                 <div>
-
                     <h5 class="fw-bold mb-1">
                         Daftar Data Petugas
                     </h5>
@@ -49,7 +46,6 @@
                     <small class="text-muted">
                         Petugas pengelolaan sampah Kampung Panyalahan
                     </small>
-
                 </div>
 
                 <div class="text-muted">
@@ -66,11 +62,35 @@
             {{-- SUCCESS --}}
             @if(session('success'))
 
-                <div class="alert alert-success">
+                <div class="alert alert-success alert-dismissible fade show">
 
                     <i class="fas fa-check-circle me-2"></i>
 
                     {{ session('success') }}
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+
+            @endif
+
+
+            {{-- ERROR --}}
+            @if(session('error'))
+
+                <div class="alert alert-danger alert-dismissible fade show">
+
+                    <i class="fas fa-exclamation-circle me-2"></i>
+
+                    {{ session('error') }}
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
 
                 </div>
 
@@ -86,7 +106,7 @@
 
                         <tr>
 
-                            <th width="60">
+                            <th width="60" class="text-center">
                                 No
                             </th>
 
@@ -95,14 +115,18 @@
                             </th>
 
                             <th>
-                                Wilayah RT
+                                Wilayah / RT
                             </th>
 
                             <th>
                                 No. HP
                             </th>
 
-                            <th width="150">
+                            <th>
+                                Status
+                            </th>
+
+                            <th width="150" class="text-center">
                                 Aksi
                             </th>
 
@@ -110,16 +134,20 @@
 
                     </thead>
 
+
                     <tbody>
 
                         @forelse($petugas as $data)
 
                         <tr>
 
-                            <td>
+                            {{-- NO --}}
+                            <td class="text-center">
                                 {{ $loop->iteration }}
                             </td>
 
+
+                            {{-- NAMA --}}
                             <td>
 
                                 <div class="d-flex align-items-center">
@@ -138,18 +166,78 @@
 
                             </td>
 
+
+                            {{-- WILAYAH --}}
                             <td>
-                                {{ $data->wilayah_rt ?? '-' }}
+
+                                @if($data->wilayah_rt)
+
+                                    <span class="badge bg-success-subtle text-success">
+
+                                        <i class="fas fa-map-marker-alt me-1"></i>
+
+                                        {{ $data->wilayah_rt }}
+
+                                    </span>
+
+                                @else
+
+                                    <span class="text-muted">
+                                        -
+                                    </span>
+
+                                @endif
+
                             </td>
 
+
+                            {{-- NO HP --}}
                             <td>
-                                {{ $data->no_hp ?? '-' }}
+
+                                @if($data->no_hp)
+
+                                    <i class="fas fa-phone text-success me-1"></i>
+
+                                    {{ $data->no_hp }}
+
+                                @else
+
+                                    <span class="text-muted">
+                                        -
+                                    </span>
+
+                                @endif
+
                             </td>
 
+
+                            {{-- STATUS --}}
                             <td>
 
-                                <div class="d-flex gap-1">
+                                @if($data->status == 'Aktif')
 
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle me-1"></i>
+                                        Aktif
+                                    </span>
+
+                                @else
+
+                                    <span class="badge bg-secondary">
+                                        {{ $data->status }}
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+
+                            {{-- AKSI --}}
+                            <td>
+
+                                <div class="d-flex justify-content-center gap-1">
+
+                                    {{-- EDIT --}}
                                     <a
                                         href="{{ route('petugas.edit', $data->id) }}"
                                         class="btn btn-warning btn-sm"
@@ -160,10 +248,11 @@
                                     </a>
 
 
+                                    {{-- HAPUS --}}
                                     <form
                                         action="{{ route('petugas.destroy', $data->id) }}"
                                         method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus data petugas ini?')">
+                                        onsubmit="return confirm('Yakin ingin menghapus data petugas {{ $data->nama }}?')">
 
                                         @csrf
 
@@ -185,6 +274,7 @@
                             </td>
 
                         </tr>
+
 
                         @empty
 
@@ -238,9 +328,11 @@
 
 <style>
 
+/* ICON PETUGAS */
 .petugas-icon {
-    width: 36px;
-    height: 36px;
+
+    width: 38px;
+    height: 38px;
 
     background: #e1f3e7;
 
@@ -253,9 +345,13 @@
     justify-content: center;
 
     flex-shrink: 0;
+
 }
 
+
+/* TABLE HEADER */
 .table thead th {
+
     background: #d8eee5;
 
     color: #17202a;
@@ -263,20 +359,62 @@
     font-weight: 600;
 
     white-space: nowrap;
+
+    padding: 14px 12px;
+
 }
 
+
+/* TABLE BODY */
 .table tbody td {
+
     padding: 13px 12px;
+
 }
 
+
+/* HOVER */
 .table tbody tr:hover {
+
     background: #f7fcf8;
+
 }
 
+
+/* BADGE RT */
+.bg-success-subtle {
+
+    background-color: #e1f3e7 !important;
+
+}
+
+
+/* EMPTY */
 .empty-data {
+
     padding: 20px;
 
     color: #188c20;
+
+}
+
+
+/* BUTTON */
+.btn-success {
+
+    background-color: #188c20;
+
+    border-color: #188c20;
+
+}
+
+
+.btn-success:hover {
+
+    background-color: #126b18;
+
+    border-color: #126b18;
+
 }
 
 </style>

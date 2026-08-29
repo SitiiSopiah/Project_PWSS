@@ -68,99 +68,38 @@
 
 
             {{-- PETUGAS --}}
-            <div class="mb-4">
+            <div class="mb-3">
 
                 <label class="form-label fw-semibold">
-
-                    Petugas Pemungutan
-
+                    Petugas
                 </label>
 
-                <div class="petugas-container">
+                <select
+                    name="petugas[]"
+                    class="form-select @error('petugas') is-invalid @enderror"
+                    multiple
+                    required
+                    style="height: 120px;">
 
-                    @forelse($petugas as $data)
+                    @foreach($petugas as $p)
 
-                        <div class="petugas-item">
+                        <option value="{{ $p->id }}">
+                            {{ $p->nama }}
+                        </option>
 
-                            <div class="form-check">
+                    @endforeach
 
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    name="petugas[]"
-                                    value="{{ $data->id }}"
-                                    id="petugas{{ $data->id }}"
-                                    {{ in_array($data->id, old('petugas', [])) ? 'checked' : '' }}>
+                </select>
 
-                                <label
-                                    class="form-check-label"
-                                    for="petugas{{ $data->id }}">
-
-                                    <span class="petugas-avatar">
-
-                                        <i class="fas fa-user"></i>
-
-                                    </span>
-
-                                    <span>
-
-                                        <strong>
-                                            {{ $data->nama }}
-                                        </strong>
-
-                                        @if(!empty($data->jabatan))
-
-                                            <small class="text-muted d-block">
-                                                {{ $data->jabatan }}
-                                            </small>
-
-                                        @endif
-
-                                    </span>
-
-                                </label>
-
-                            </div>
-
-                        </div>
-
-                    @empty
-
-                        <div class="text-center p-4">
-
-                            <i class="fas fa-user-tie fa-2x text-muted mb-2"></i>
-
-                            <p class="text-muted mb-2">
-                                Belum ada data petugas.
-                            </p>
-
-                            <a
-                                href="{{ route('petugas.create') }}"
-                                class="btn btn-outline-success btn-sm">
-
-                                <i class="fas fa-plus me-1"></i>
-
-                                Tambah Petugas
-
-                            </a>
-
-                        </div>
-
-                    @endforelse
-
-                </div>
+                <small class="text-muted">
+                    Tekan Ctrl untuk memilih 2 atau lebih petugas.
+                </small>
 
                 @error('petugas')
-
-                    <div class="text-danger small mt-2">
+                    <div class="invalid-feedback">
                         {{ $message }}
                     </div>
-
                 @enderror
-
-                <small class="text-muted d-block mt-2">
-                    Pilih satu atau beberapa petugas yang bertugas pada jadwal ini.
-                </small>
 
             </div>
 

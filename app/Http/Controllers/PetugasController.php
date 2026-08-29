@@ -56,10 +56,8 @@ class PetugasController extends Controller
             ->with('success', 'Data petugas berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(Petugas $petugas)
     {
-        $petugas = Petugas::findOrFail($id);
-
         $petugas->delete();
 
         return redirect()

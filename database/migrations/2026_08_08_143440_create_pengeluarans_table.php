@@ -11,9 +11,7 @@ return new class extends Migration
         Schema::create('pengeluarans', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->string('sumber');
-            $table->integer('jumlah_karung');
-            $table->decimal('total', 15, 2)->default(0);
+            $table->decimal('jumlah', 15, 2)->default(0);
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });

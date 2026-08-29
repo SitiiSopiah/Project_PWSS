@@ -126,21 +126,17 @@
                             </td>
 
                             <td>
-
                                 <div class="d-flex align-items-center">
 
                                     <div class="fasilitas-icon me-2">
-
                                         <i class="fas fa-building"></i>
-
                                     </div>
 
                                     <strong>
-                                        {{ $data->nama }}
+                                        {{ $data->nama_fasilitas }}
                                     </strong>
 
                                 </div>
-
                             </td>
 
                             <td>
@@ -186,8 +182,7 @@
                                 <div class="d-flex gap-1">
 
                                     {{-- EDIT --}}
-                                    <a
-                                        href="{{ route('fasilitas.edit', $data->id) }}"
+                                    <a href="{{ route('fasilitas.edit', $data->id) }}"
                                         class="btn btn-warning btn-sm"
                                         title="Edit">
 

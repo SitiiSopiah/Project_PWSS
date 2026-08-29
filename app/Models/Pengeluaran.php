@@ -6,16 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pengeluaran extends Model
 {
+    protected $table = 'pengeluarans';
+
     protected $fillable = [
         'tanggal',
-        'sumber',
-        'jumlah_karung',
-        'total',
+        'jumlah',
         'keterangan',
     ];
 
     protected $casts = [
         'tanggal' => 'date',
-        'total' => 'decimal:2',
     ];
 }

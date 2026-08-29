@@ -31,15 +31,21 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard');
 
     Route::get('/administrasi', [AdministrasiController::class, 'index'])
-        ->name('administrasi.index');
+    ->name('administrasi.index');
 
     Route::resource('pemasukans', PemasukanController::class);
     Route::resource('pengeluarans', PengeluaranController::class);
     Route::resource('pencatatans', PencatatanController::class);
     Route::resource('jadwals', JadwalController::class);
     Route::resource('wargas', WargaController::class);
-    Route::resource('petugas', PetugasController::class);
-    Route::resource('fasilitas', FasilitasController::class);
+    Route::resource('petugas', PetugasController::class)
+    ->parameters([
+        'petugas' => 'petugas'
+    ]);
+    Route::resource('fasilitas', FasilitasController::class)
+    ->parameters([
+        'fasilitas' => 'fasilitas'
+    ]);
     Route::resource('kegiatans', KegiatanController::class);
 
 });

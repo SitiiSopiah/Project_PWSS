@@ -9,7 +9,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('jadwal_petugas', function (Blueprint $table) {
-
             $table->id();
 
             $table->foreignId('jadwal_id')
@@ -22,15 +21,12 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique([
-                'jadwal_id',
-                'petugas_id'
-            ]);
+            $table->unique(['jadwal_id', 'petugas_id']);
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('jadwals');
+        Schema::dropIfExists('jadwal_petugas');
     }
 };

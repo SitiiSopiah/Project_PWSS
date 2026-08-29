@@ -35,12 +35,12 @@ class FasilitasController extends Controller
             ->with('success', 'Data fasilitas berhasil ditambahkan.');
     }
 
-    public function edit(Fasilitas $fasilita)
+    public function edit(Fasilitas $fasilitas)
     {
-        return view('fasilitas.edit', compact('fasilita'));
+        return view('fasilitas.edit', compact('fasilitas'));
     }
 
-    public function update(Request $request, Fasilitas $fasilita)
+    public function update(Request $request, Fasilitas $fasilitas)
     {
         $validated = $request->validate([
             'nama_fasilitas' => 'required|string|max:255',
@@ -49,16 +49,16 @@ class FasilitasController extends Controller
             'keterangan' => 'nullable|string',
         ]);
 
-        $fasilita->update($validated);
+        $fasilitas->update($validated);
 
         return redirect()
             ->route('fasilitas.index')
             ->with('success', 'Data fasilitas berhasil diperbarui.');
     }
 
-    public function destroy(Fasilitas $fasilita)
+    public function destroy(Fasilitas $fasilitas)
     {
-        $fasilita->delete();
+        $fasilitas->delete();
 
         return redirect()
             ->route('fasilitas.index')

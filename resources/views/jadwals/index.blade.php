@@ -6,7 +6,6 @@
 
 <div class="container-fluid p-0">
 
-```
 {{-- HEADER --}}
 <div class="d-flex justify-content-between align-items-center mb-4">
 

@@ -11,8 +11,14 @@ class AdministrasiController extends Controller
     {
         $pemasukans = Pemasukan::latest('tanggal')->get();
         $pengeluarans = Pengeluaran::latest('tanggal')->get();
+
+        // Total pemasukan menggunakan kolom total
         $totalPemasukan = Pemasukan::sum('total');
-        $totalPengeluaran = Pengeluaran::sum('total');
+
+        // Total pengeluaran menggunakan kolom jumlah
+        $totalPengeluaran = Pengeluaran::sum('jumlah');
+
+        // Saldo akhir
         $saldoAkhir = $totalPemasukan - $totalPengeluaran;
 
         return view('administrasi.index', compact(

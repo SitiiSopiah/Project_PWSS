@@ -11,50 +11,49 @@ class PengeluaranController extends Controller
     {
         $pengeluarans = Pengeluaran::latest('tanggal')->get();
 
-        return view('pengeluaran.index', compact('pengeluarans'));
+        return view('administrasi.pengeluaran.index', compact('pengeluarans'));
     }
 
     public function create()
     {
-        return view('pengeluaran.create');
+        return view('administrasi.pengeluaran.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'tanggal' => 'required|date',
-            'sumber' => 'required|string|max:255',
-            'jumlah_karung' => 'required|integer|min:0',
-            'total' => 'required|numeric|min:0',
+            'jumlah' => 'required|numeric|min:0',
             'keterangan' => 'nullable|string',
         ]);
 
         Pengeluaran::create($validated);
 
         return redirect()
-            ->route('pengeluaran.index')
+            ->route('administrasi.index')
             ->with('success', 'Data pengeluaran berhasil ditambahkan.');
     }
 
     public function edit(Pengeluaran $pengeluaran)
     {
-        return view('pengeluaran.edit', compact('pengeluaran'));
+        return view(
+            'administrasi.pengeluaran.edit',
+            compact('pengeluaran')
+        );
     }
 
     public function update(Request $request, Pengeluaran $pengeluaran)
     {
         $validated = $request->validate([
             'tanggal' => 'required|date',
-            'sumber' => 'required|string|max:255',
-            'jumlah_karung' => 'required|integer|min:0',
-            'total' => 'required|numeric|min:0',
+            'jumlah' => 'required|numeric|min:0',
             'keterangan' => 'nullable|string',
         ]);
 
         $pengeluaran->update($validated);
 
         return redirect()
-            ->route('pengeluaran.index')
+            ->route('administrasi.index')
             ->with('success', 'Data pengeluaran berhasil diperbarui.');
     }
 
@@ -63,7 +62,7 @@ class PengeluaranController extends Controller
         $pengeluaran->delete();
 
         return redirect()
-            ->route('pengeluaran.index')
+            ->route('administrasi.index')
             ->with('success', 'Data pengeluaran berhasil dihapus.');
     }
 }
